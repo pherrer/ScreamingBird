@@ -3,11 +3,11 @@ CPE 487 Final Project: Voice/Noise Controlled Flappy Bird:
 
 
 ## Overview:
-
 Our project is a sound controlled version of Flappy Bird. It will be based on Labs 3 (Bouncing Ball), 5 (Siren), and 6 (Pong) for reference. The game will display a shape (representing the "bird") you have to guide through a series of obstacles by making a noise. If a loud enough noise is detected by the system, it will move the “bird” up a set distance. We do not plan on adding specific voice recognition or keywords to make the “bird” move up. Rather, the noise just theoretically needs to reach a certain decibel level to be registered by the system and trigger the upward movement.
 
-## How to use: 
+Please view the credits at the bottom!
 
+## How to use: 
 _Controls:_
 Shout, clap, or make an otherwise loud-ish noise into the audio input! Each noise will move the bird up a fixed amount. Keep making noise to navigate the bird through the pipes! Each time you go through a pipe, you get a point. If the bird hits a pipe, you lose!
 
@@ -22,6 +22,8 @@ Navigate the bird past five sets of pipes to win!
 
 ## Software:
 
+### Files:
+
 ### Block Diagram:
 
 ### FSM:
@@ -32,6 +34,11 @@ Navigate the bird past five sets of pipes to win!
 
 
 ## Summary of Process:
+
+## Credits:
+https://github.com/BriannaPGarland/FlappyAttila/tree/main
+
+
 
 ### What to Submit:
 Your final submission should be a github repository of very similar format to the labs themselves with an opening README document with the expected components as follows:
