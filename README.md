@@ -2,7 +2,28 @@
 CPE 487 Final Project: Voice/Noise Controlled Flappy Bird:
 
 
-## What to Submit:
+## Overview:
+
+Our project is a sound controlled version of Flappy Bird. It will be based on Labs 3 (Bouncing Ball), 5 (Siren), and 6 (Pong) for reference. 
+
+## Hardware:
+- Nexys A7-100T FPGA Board
+- Audio Input (either the one built into the Nexys Board, or the Pmod I2S2 from Lab 5)
+- Dsiplay VGA Monitor
+
+## Software:
+
+### Block Diagram:
+
+### FSM:
+
+### Inputs/Outputs:
+
+### Modifications:
+
+## Summary of Process:
+
+### What to Submit:
 Your final submission should be a github repository of very similar format to the labs themselves with an opening README document with the expected components as follows:
 
 * A description of the expected behavior of the project, attachments needed (speaker module, VGA connector, etc.), related images/diagrams, etc. (10 points of the Submission category)
