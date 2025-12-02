@@ -24,16 +24,16 @@ Navigate the bird past five sets of pipes to win!
 
 ### Files:
 #### from past labs:
-clk_wiz_0.vhd : display to VGA monitor
-clk_wiz_0_clk_wiz.vhd : display to VGA monitor
-leddec16.vhd : use the FPGA board to display a score counter
-vga_sync.vhd : control the dimensions of the game on the display
+- clk_wiz_0.vhd : display to VGA monitor
+- clk_wiz_0_clk_wiz.vhd : display to VGA monitor
+- leddec16.vhd : use the FPGA board to display a score counter
+- vga_sync.vhd : control the dimensions of the game on the display
 
 #### created for this project (modified and referenced from past projects):
-bird_and_pipes.vhd : game logic and on-screen functionality
-flap.vhd : where the components are 
-risingedge.vhd : checks for the rising edge 
-flap.xdc : constraint file that controls the board
+- bird_and_pipes.vhd : game logic and on-screen functionality
+- flap.vhd : where the components are 
+- risingedge.vhd : checks for the rising edge 
+- flap.xdc : constraint file that controls the board
 
 
 ### Block Diagram:
