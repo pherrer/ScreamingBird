@@ -28,6 +28,7 @@ Navigate the bird past five sets of pipes to win!
 - clk_wiz_0_clk_wiz.vhd : display to VGA monitor
 - leddec16.vhd : use the FPGA board to display a score counter
 - vga_sync.vhd : control the dimensions of the game on the display
+- dac_if : controls the audio input which is the control for the bird
 #### created for this project (modified and referenced from past projects):
 - bird_and_pipes.vhd : game logic and on-screen functionality
 - flap.vhd : where the components are 
