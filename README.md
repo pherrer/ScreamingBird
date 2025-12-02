@@ -38,6 +38,11 @@ Navigate the bird past five sets of pipes to win!
 ## Credits:
 https://github.com/BriannaPGarland/FlappyAttila/tree/main
 
+https://github.com/byett/dsd/tree/CPE487-Fall2025/Nexys-A7/Lab-3
+https://github.com/byett/dsd/tree/CPE487-Fall2025/Nexys-A7/Lab-5
+https://github.com/byett/dsd/tree/CPE487-Fall2025/Nexys-A7/Lab-6
+
+
 
 
 ### What to Submit:
