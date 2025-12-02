@@ -6,7 +6,16 @@ CPE 487 Final Project: Voice/Noise Controlled Flappy Bird:
 
 Our project is a sound controlled version of Flappy Bird. It will be based on Labs 3 (Bouncing Ball), 5 (Siren), and 6 (Pong) for reference. The game will display a shape (representing the "bird") you have to guide through a series of obstacles by making a noise. If a loud enough noise is detected by the system, it will move the “bird” up a set distance. We do not plan on adding specific voice recognition or keywords to make the “bird” move up. Rather, the noise just theoretically needs to reach a certain decibel level to be registered by the system and trigger the upward movement.
 
-## Hardware:
+## How to use: 
+
+_Controls:_
+Shout, clap, or make an otherwise loud-ish noise into the audio input! Each noise will move the bird up a fixed amount. Keep making noise to navigate the bird through the pipes! Each time you go through a pipe, you get a point. If the bird hits a pipe, you lose!
+
+_How to Win:_
+Navigate the bird past five sets of pipes to win! 
+
+
+## Hardware Requirements:
 - Nexys A7-100T FPGA Board
 - Audio Input (either the one built into the Nexys Board, or the Pmod I2S2 from Lab 5)
 - Dsiplay VGA Monitor
