@@ -47,10 +47,14 @@ Navigate the bird past five sets of pipes to win!
 ## Summary of Process:
 
 ## Credits:
+past dsd projects:
 https://github.com/BriannaPGarland/FlappyAttila/tree/main
+https://sites.google.com/stevens.edu/cpe487website/project
 
+outside projects/references:
 https://www.secs.oakland.edu/~llamocca/Courses/ECE4710/W22/FinalProject/Group7_flappybird.pdf
 
+dsd labs:
 https://github.com/byett/dsd/tree/CPE487-Fall2025/Nexys-A7/Lab-3
 https://github.com/byett/dsd/tree/CPE487-Fall2025/Nexys-A7/Lab-5
 https://github.com/byett/dsd/tree/CPE487-Fall2025/Nexys-A7/Lab-6
