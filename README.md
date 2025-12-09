@@ -51,6 +51,9 @@ past dsd projects:
 
 https://github.com/BriannaPGarland/FlappyAttila/tree/main
 https://sites.google.com/stevens.edu/cpe487website/project
+https://github.com/I-Gringeri/FinalProjectCPE487
+https://github.com/Arif12467/Digital-System-Design-AIA/tree/main/Final-Project
+https://github.com/karlsheng99/CPE487_DigitalSystemDesign/tree/master/project
 
 outside projects/references:
 
