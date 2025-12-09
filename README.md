@@ -58,6 +58,7 @@ https://github.com/karlsheng99/CPE487_DigitalSystemDesign/tree/master/project
 outside projects/references:
 
 https://www.secs.oakland.edu/~llamocca/Courses/ECE4710/W22/FinalProject/Group7_flappybird.pdf
+https://digilent.com/reference/programmable-logic/nexys-a7/reference-manual?srsltid=AfmBOoouMjAwKUqbr0LgrgV_uC05SJKV512vV2uWS_w70B1NHi0PrJ6b 
 
 dsd labs:
 
