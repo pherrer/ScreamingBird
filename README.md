@@ -47,7 +47,7 @@ Navigate the bird past five sets of pipes to win!
 ## Summary of Process:
 
 ## Credits:
-past dsd projects:
+### past dsd projects:
 
 https://github.com/BriannaPGarland/FlappyAttila/tree/main
 https://sites.google.com/stevens.edu/cpe487website/project
@@ -56,12 +56,13 @@ https://github.com/Arif12467/Digital-System-Design-AIA/tree/main/Final-Project
 https://github.com/karlsheng99/CPE487_DigitalSystemDesign/tree/master/project
 https://github.com/karlsheng99/CPE487_DigitalSystemDesign/blob/master/project/AudioVisualEqualizer/AudioVisualEqualizer.srcs/sources_1/new/PdmDes.vhd
 
-outside projects/references:
+### outside projects/references:
 
 https://www.secs.oakland.edu/~llamocca/Courses/ECE4710/W22/FinalProject/Group7_flappybird.pdf
 https://digilent.com/reference/programmable-logic/nexys-a7/reference-manual?srsltid=AfmBOoouMjAwKUqbr0LgrgV_uC05SJKV512vV2uWS_w70B1NHi0PrJ6b 
+https://www.rtlaudiolab.com/006-fpga-audio-deserializer/
 
-dsd labs:
+### dsd labs:
 
 https://github.com/byett/dsd/tree/CPE487-Fall2025/Nexys-A7/Lab-3
 https://github.com/byett/dsd/tree/CPE487-Fall2025/Nexys-A7/Lab-5
