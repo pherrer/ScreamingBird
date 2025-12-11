@@ -80,9 +80,9 @@ BEGIN
     --assign hits output to reflect the score
     hits <= conv_std_logic_vector(score, 16);
    -- color setup for blue bird and green pipes on a white background
-    red <= '0' when building_on = '0' and bound_on = '0' else '1';
+    red <= building_on or bound_on;
     green <= building_on or bound_on;
-    blue <= bird_on and background_on;
+    blue <= bird_on;
     
     --drawing the BIRD, referencing balldraw from lab 6 pong
     --because... our bird will be a ball... heheheh..... hehe.. he...
@@ -159,11 +159,15 @@ BEGIN
 	   wait until rising_edge(v_sync);
 	   if game_on = '1' then
 	       if audio_peak = '1' then
-	           bird_y_vel_int <= jump_strength;
+	           bird_y_vel_int <= jump_strength; --JUMP!!!
+	       else
+	           bird_y_vel_int <= bird_y_vel_int + gravity; --gravity accumulation
 	       end if;
-	       bird_y_vel_int <= bird_y_vel_int + gravity;
-	       bird_y_int <= bird_y_int + bird_y_vel_int;
+	       --bird_y_vel_int <= bird_y_vel_int + gravity;
 	       
+	       bird_y_int <= bird_y_int + bird_y_vel_int; --update position
+	       
+	       --clamp to screen bounds
 	       if bird_y_int < 10 THEN
                 bird_y_int <= 10;
             elsif bird_y_int > 470 THEN
@@ -171,9 +175,11 @@ BEGIN
             end if;
             
         else 
+        --when game not sunning, reset bird to starting position
           bird_y_int <= 300;
           bird_y_vel_int <= 0;
         end if;
+        --reflect integer position to std_logic_vector
         bird_y <= conv_std_logic_vector(bird_y_int, 11);
      end process;
 	       
@@ -195,9 +201,11 @@ BEGIN
 	BEGIN
 		WAIT UNTIL rising_edge(v_sync);
 		
-		--This is checking if this is the first serve of the game because it resets everything 
 		--PART 1: game reset/serve function
-		IF serve = '1' AND game_on = '0' AND audio_peak = '1' THEN -- test for new serve
+		--only used to start game
+		--press btn0 to serve
+		--and then use aidio to jump
+		IF (serve = '1') AND (game_on = '0') THEN -- test for new serve
             game_on <= '1';
 		    score<=0;
 		    gapsize<=120;
@@ -209,24 +217,27 @@ BEGIN
 		    --reset pipe hori speed
             gap_speed <= conv_std_logic_vector(5, 10);
             bound_y_motion <= gap_speed;
-        
+        END IF;
         --PART 2: moving pipe across the screen (pipe moves left)
-            next_x := conv_integer(unsigned(bound_y)) - conv_integer(unsigned(bound_y_motion));
-            --respawn the pipe at right edge once it moves offscreen
-		    if next_x < 0 then
-                score <= score + 1;	
-                --randomized vertical gap formula from bird_and_buildings	   
-                x <=((123*(score**2)) mod 560)+40;
-                IF x<40 THEN
-                    x <=40;
-                ELSIF x>600 THEN
-                        x <=600;
-		        END IF;
-		   	 gap_pos <= CONV_STD_LOGIC_VECTOR(x, 10);
-		   	 next_x := 640; --reset pipe position to right side of screen
-		END IF;
+            if game_on = '1' then
+                --compute next pipe x , moves left
+                next_x := conv_integer(unsigned(bound_y)) - conv_integer(unsigned(bound_y_motion));
+                --respawn the pipe at right edge once it moves offscreen
+                if next_x < 0 then
+                    score <= score + 1;	
+                    --randomized vertical gap formula from bird_and_buildings	   
+                    x <=((123*(score**2)) mod 560)+40;
+                    IF x < 40 THEN
+                        x <= 40;
+                    ELSIF x > 600 THEN
+                            x <= 600;
+                    END IF;
+                 gap_pos <= CONV_STD_LOGIC_VECTOR(x, 10);
+                 next_x := 640; --reset pipe position to right side of screen
+              end if;  
         --updated pipe x position
-        bound_y <= CONV_STD_LOGIC_VECTOR(next_x, 10);
+           bound_y <= CONV_STD_LOGIC_VECTOR(next_x, 10);
+        end if;
 
 		--PART 3: collision detection!!!!!	
 		-- This checks if you landed within the gap and allows you to add to the score until you win @ 15 points and the score resets
@@ -238,13 +249,13 @@ BEGIN
 		gap_top := conv_integer(unsigned(gap_pos)) - gapsize/2;
 		gap_bottom := conv_integer(unsigned(gap_pos)) + gapsize/2;
 		
-		--pipe horizontal region is a 2*bound_h wide column
+		--pipe horizontal region is a column
 		--pipe vertical region is entire screen save for btwn gap_top/bottom
-	       
-	      --check if bird is inside horizontal region
-		  if bird_right >= next_x - bound_h and
-		     bird_left <= next_x + bound_h then
-		      --check if da bird is inside gap vertically
+	     
+	      --does bird overlap pipe horizontally
+		  if bird_right >= (conv_integer(unsigned(bound_y)) - bound_h) and
+          bird_left <= (conv_integer(unsigned(bound_y)) + bound_h) then
+		     --is bird outside vertical gap
 		      if (conv_integer(unsigned(bird_y)) < gap_top) or 
 		          (conv_integer(unsigned(bird_y)) > gap_bottom) then
 		          --oooppppss u died!! bird collison = game ovrrr
@@ -254,7 +265,7 @@ BEGIN
 		          bound_y_motion <= gap_speed;
 		     end if;
 		  end if;
-		 end if;
+	--	 end if;
 	end process;
 
 end behavioral;
