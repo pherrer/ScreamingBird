@@ -39,7 +39,14 @@ ARCHITECTURE Behavioral OF dac_if IS
     --threshold of loudness:
     constant threshold : unsigned(15 downto 0) := to_unsigned(3000, 16);
     
-   --instantiate pdm mic deserializer
+    --signel cycle pulse generation
+    signal audio_peak_sync0 : std_logic := '0';
+    signal audio_peak_sync1 : std_logic := '0';
+    
+    signal raw_audio_peak : std_logic;
+
+    
+   --instantiate pdm mic deserializer from reference
     component PdmDes is
         generic(
             C_NR_OF_BITS : integer := 16;
@@ -63,8 +70,8 @@ ARCHITECTURE Behavioral OF dac_if IS
       end component;
    
 begin       
---deserializer
-       pdm_inst : PdmDes
+--instantiatie deserializer
+   pdm_inst : PdmDes
        generic map(
             C_NR_OF_BITS => 16,
             C_SYS_CLK_FREQ_MHZ => 75,
@@ -84,30 +91,47 @@ begin
            pdm_clk_rising_o => open-- Signaling the rising edge of M_CLK, used by the MicDisplay
                                                -- component in the VGA controller
            );
-      
-    --peak detector PROCESS:
+           
+    --audio peak detection
+    peak_detect: process(clk)
+        variable sample_signed : signed(15 downto 0);
+        variable sample_abs : unsigned(15 downto 0);
+    begin
+        if rising_edge(clk) then
+            if sample_ready = '1' then
+                -- taking abs value of sample
+                sample_signed := signed(sample_data);
+                if sample_signed < 0 then
+                    sample_abs := unsigned(-sample_signed);
+                else
+                    sample_abs := unsigned(sample_signed);
+                end if;
+                -- compare to threshold...
+                if sample_abs > threshold then
+                    raw_audio_peak <= '1';
+                else
+                    raw_audio_peak <= '0';
+                end if;
+            end if;
+        end if;
+    end process;
+    
+    --generating single cycle pulse from raw audio peak
         process(clk)
-            variable temp_signed : signed(15 downto 0);
-            variable temp_abs : unsigned(15 downto 0);
+        --    variable temp_signed : signed(15 downto 0);
+          --  variable temp_abs : unsigned(15 downto 0);
         begin
             if rising_edge(clk) then
             --updating audio level when new sample arrives
-                if sample_ready = '1' then
-                    --take absolute value of sample
-                    temp_signed := signed(sample_data);
-                    if temp_signed < 0 then
-                        temp_abs := unsigned(-temp_signed);
-                    else
-                        temp_abs := unsigned(temp_signed);
-                    end if;
-                --compare it against the threshold
-                    if temp_abs > threshold then
-                        audio_peak <= '1';
-                    else
-                        audio_peak <= '0';
+              audio_peak_sync0 <= raw_audio_peak;
+              audio_peak_sync1 <= audio_peak_sync0;
+            -- rising edge detection for single cycle pulse...
+                if (audio_peak_sync0 = '1' and audio_peak_sync1 = '0') then
+                    audio_peak <= '1';
+                else
+                    audio_peak <= '0';
                 end if;
-           end if;
         end if;
      end process;
     
-END Behavioral;
+end Behavioral;
