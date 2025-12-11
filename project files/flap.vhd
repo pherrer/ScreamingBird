@@ -1,4 +1,4 @@
-\--taken from pong.vhd
+--taken from pong.vhd
 --modified to add bird_and_pipes instantiation
 --added audio_peak signals
 LIBRARY IEEE;
@@ -150,3 +150,4 @@ BEGIN
       anode => SEG7_anode, seg => SEG7_seg
     );
 END Behavioral;
+
