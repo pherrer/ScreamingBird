@@ -56,12 +56,14 @@ https://github.com/I-Gringeri/FinalProjectCPE487
 https://github.com/Arif12467/Digital-System-Design-AIA/tree/main/Final-Project
 https://github.com/karlsheng99/CPE487_DigitalSystemDesign/tree/master/project
 https://github.com/karlsheng99/CPE487_DigitalSystemDesign/blob/master/project/AudioVisualEqualizer/AudioVisualEqualizer.srcs/sources_1/new/PdmDes.vhd
+https://github.com/Arif12467/Digital-System-Design-AIA/blob/main/Final-Project/Test-6/PdmDes.vhd
 
 ### outside projects/references:
 
 https://www.secs.oakland.edu/~llamocca/Courses/ECE4710/W22/FinalProject/Group7_flappybird.pdf
 https://digilent.com/reference/programmable-logic/nexys-a7/reference-manual?srsltid=AfmBOoouMjAwKUqbr0LgrgV_uC05SJKV512vV2uWS_w70B1NHi0PrJ6b 
 https://www.rtlaudiolab.com/006-fpga-audio-deserializer/
+https://blog.nanax.fr/post/2019-05-28-vhdl-blobbyfish/
 
 ### dsd labs:
 
