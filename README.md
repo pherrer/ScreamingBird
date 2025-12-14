@@ -18,7 +18,7 @@ Don't crash the bird into a pipe, keep making noises so it stays up!!!! Check yo
 
 ## Hardware Requirements:
 - Nexys A7-100T FPGA Board
-- Audio Input (either the one built into the Nexys Board, or the Pmod I2S2 from Lab 5)
+- Audio Input (built into the Nexys Board already!)
 - Dsiplay VGA Monitor
 
 ## Software:
