@@ -13,7 +13,7 @@ _Controls:_
 Shout, clap, or make an otherwise loud-ish noise into the audio input! Each noise will move the bird up a fixed amount. Keep making noise to navigate the bird through the pipes! Each time you go through a pipe, you get a point. If the bird hits a pipe, you lose!
 
 _How to Win:_
-Navigate the bird past five sets of pipes to win! 
+Don't crash the bird into a pipe, keep making noises so it stays up!!!! Check your score on the LED screen!
 
 
 ## Hardware Requirements:
