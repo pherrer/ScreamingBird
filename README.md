@@ -43,6 +43,11 @@ NOTE: DO LAB INSTRUCTIONS !!!!!!!
 ### Inputs/Outputs:
 
 ### Modifications:
+
+This project was mainly built by extending and integrating different aspects, structures, files, and other material from CPE 487 Labs as well as previous CPE 487 projects. The primary goal of this project was not to soley re-use these structures, but to expand upon them with new functionality. Using these references, we were able to re-design game logic into an independent and functioning audio-driven Flappy Bird game.
+
+The main modifications and referencing from other labs are listed below:
+
 - #### <ins>flap_top.vhd:</ins> modified from lab 6's [pong.vhd](https://github.com/byett/dsd/blob/CPE487-Fall2025/Nexys-A7/Lab-6/pong.vhd) and flappy atilla's [flappy.vhd](https://github.com/BriannaPGarland/FlappyAttila/blob/main/ProjectFiles/flappy.vhd)
 
 - #### <ins>bird_and_pipes.vhd:</ins> modified from lab 6's [bat_n_ball.vhd](https://github.com/byett/dsd/blob/CPE487-Fall2025/Nexys-A7/Lab-6/bat_n_ball.vhd) and flappy atilla's [bird_n_buildings.vhd](https://github.com/BriannaPGarland/FlappyAttila/blob/main/ProjectFiles/bird_n_buildings.vhd)
