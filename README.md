@@ -5,7 +5,7 @@ CPE 487 Final Project: Voice/Noise Controlled Flappy Bird
 
 
 ## Overview:
-Our project is a sound controlled version of Flappy Bird. It will be based on Labs 3 (Bouncing Ball), 5 (Siren), and 6 (Pong) for reference. The game will display a shape (representing the "bird") you have to guide through a series of obstacles by making a noise. If a loud enough noise is detected by the system, it will move the “bird” up a set distance. We do not plan on adding specific voice recognition or keywords to make the “bird” move up. Rather, the noise just theoretically needs to reach a certain decibel level to be registered by the system and trigger the upward movement.
+Our project is a sound controlled version of Flappy Bird. It will be based on Labs 3 (Bouncing Ball) and 6 (Pong) for reference. The game will display a shape (representing the "bird") you have to guide through a series of obstacles by making a noise. If a loud enough noise is detected by the system, it will move the “bird” up a set distance. We do not plan on adding specific voice recognition or keywords to make the “bird” move up. Rather, the noise just theoretically needs to reach a certain decibel level to be registered by the system and trigger the upward movement.
 
 Please view the credits at the bottom!
 
