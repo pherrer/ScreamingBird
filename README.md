@@ -40,11 +40,11 @@ Don't crash the bird into a pipe, keep making noises so it stays up!!!! Check yo
 ### Inputs/Outputs:
 
 ### Modifications:
-#### <ins>flap_top.vhd:</ins> modified from lab 6 [pong.vhd](https://github.com/byett/dsd/blob/CPE487-Fall2025/Nexys-A7/Lab-6/pong.vhd) and flappy atilla's [flappy.vhd]([url](https://github.com/BriannaPGarland/FlappyAttila/blob/main/ProjectFiles/flappy.vhd))
+#### <ins>flap_top.vhd:</ins> modified from lab 6 [pong.vhd](https://github.com/byett/dsd/blob/CPE487-Fall2025/Nexys-A7/Lab-6/pong.vhd) and flappy atilla's [flappy.vhd]([url](https://github.com/BriannaPGarland/FlappyAttila/blob/main/ProjectFiles/flappy.vhd)
 
-#### <ins>bird_and_pipes.vhd:</ins> modified from lab 6 [bat_n_ball.vhd](https://github.com/byett/dsd/blob/CPE487-Fall2025/Nexys-A7/Lab-6/bat_n_ball.vhd) and flappy atilla's [bird_n_buildings.vhd]([url](https://github.com/BriannaPGarland/FlappyAttila/blob/main/ProjectFiles/bird_n_buildings.vhd))
+#### <ins>bird_and_pipes.vhd:</ins> modified from lab 6 [bat_n_ball.vhd](https://github.com/byett/dsd/blob/CPE487-Fall2025/Nexys-A7/Lab-6/bat_n_ball.vhd) and flappy atilla's [bird_n_buildings.vhd](https://github.com/BriannaPGarland/FlappyAttila/blob/main/ProjectFiles/bird_n_buildings.vhd)
 
-#### <ins>pdmdes.vhd:</ins> used karlsheng99's complete [pdmdes.vhd]([url](https://github.com/karlsheng99/CPE487_DigitalSystemDesign/blob/master/project/AudioVisualEqualizer/AudioVisualEqualizer.srcs/sources_1/new/PdmDes.vhd))
+#### <ins>pdmdes.vhd:</ins> used karlsheng99's complete [pdmdes.vhd](https://github.com/karlsheng99/CPE487_DigitalSystemDesign/blob/master/project/AudioVisualEqualizer/AudioVisualEqualizer.srcs/sources_1/new/PdmDes.vhd)
 
 
 ## Summary of Process:
