@@ -16,6 +16,8 @@ Shout, clap, or make an otherwise loud-ish noise into the audio input! Each nois
 _How to Win:_
 Don't crash the bird into a pipe, keep making noises so it stays up!!!! Check your score on the LED screen!
 
+NOTE: DO LAB INSTRUCTIONS !!!!!!!
+
 
 ## Hardware Requirements:
 - Nexys A7-100T FPGA Board
