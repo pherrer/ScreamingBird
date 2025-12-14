@@ -6,267 +6,204 @@
 --and flappy atilla project - https://github.com/BriannaPGarland/FlappyAttila/blob/main/ProjectFiles/bird_n_buildings.vhd
 --and 2019 flappy bird project - https://sites.google.com/stevens.edu/cpe487website/project
 
+--create the bird, pipes, and game logic functionalities
+
 LIBRARY IEEE;
 USE IEEE.STD_LOGIC_1164.ALL;
 USE IEEE.STD_LOGIC_ARITH.ALL;
 USE IEEE.STD_LOGIC_UNSIGNED.ALL;
 
-ENTITY bird_and_pipes IS
-    PORT (
-        v_sync : IN STD_LOGIC;
-        pixel_row : IN STD_LOGIC_VECTOR(10 DOWNTO 0);
-        pixel_col : IN STD_LOGIC_VECTOR(10 DOWNTO 0);
-      
-      --ignore, we are focusing on BIRD (aka only the ball!) changed from bat_x 
-      --  bird_x : IN STD_LOGIC_VECTOR (10 DOWNTO 0); -- current bat_x position
-       
-        serve : IN STD_LOGIC; -- initiates serve
-        hits : out std_logic_vector(15 downto 0); --added hit counter
-        
-        audio_peak : in std_logic; --our method of controlling the bird
-        --audio trigger = 1 when loud enough audio is detected!!
-
-        --ports for colors. our bird will be blue, and pipes will be green!
-        red : OUT STD_LOGIC;
+entity bird_and_pipes is
+    port(
+        v_sync    : IN  STD_LOGIC;
+        pixel_row : IN  STD_LOGIC_VECTOR(10 DOWNTO 0);
+        pixel_col : IN  STD_LOGIC_VECTOR(10 DOWNTO 0);
+        serve : IN  STD_LOGIC; -- start/reset
+        flap  : IN  STD_LOGIC; -- 1-frame pulse
+        hits  : OUT STD_LOGIC_VECTOR(15 DOWNTO 0);
+        red   : OUT STD_LOGIC;
         green : OUT STD_LOGIC;
-        blue : OUT STD_LOGIC
-       
+        blue  : OUT STD_LOGIC
     );
-END bird_and_pipes;
+end bird_and_pipes;
 
-ARCHITECTURE Behavioral OF bird_and_pipes IS
-    --bird size in pixels:
-    CONSTANT bsize : INTEGER := 8; -- ball radius in pixels
+architecture Behavioral of bird_and_pipes is
+    --constants for drawing game items and setting restrictions
+    --screen constants:
+    constant screen_w : integer := 800;
+    constant screen_h : integer := 600;
     
-    CONSTANT bird_speed : STD_LOGIC_VECTOR (10 DOWNTO 0) := CONV_STD_LOGIC_VECTOR (6, 11);
-    --boundary size constant
-    CONSTANT bound_h : INTEGER := 65; -- thickness of the bound
+    --creating the bird (a ball):
+    constant bsize : integer := 8;
+    constant bird_x : integer := 200; --bird's x position
     
-    --signals...
-    signal gapsize : integer := 120;
-    signal score : integer := 0;
-    signal gap_speed : std_logic_vector(9 downto 0) := conv_std_logic_vector(5, 10);
-    SIGNAL x : integer :=320;
-    SIGNAL flag : integer :=0; -- variable to determine what type of game is happening 
+    --constants for the bird physics (only moves in y direction):
+    constant gravity : integer := 1; --pull bird down when not jumping up
+    constant jump_vel : integer := -10; --jump velocity
+    constant max_fall_vel : integer := -12;--the max velocity the bird can fall
+    
+    --constants for the pipes (basic rectangles that move across the screen):
+    constant pipe_w : integer := 60;
+    constant pipe_speed : integer := 6;
+    constant gap_h : integer := 150; --gap logic inspired & ref from flappy atilla
+    
+    --signals for the game:
+    signal bird_on : std_logic := '0'; --turns on when game starts (btn0 is pushed)
+    signal pipe_on : std_logic := '0';
+    signal game_on : std_logic := '0'; -- states if game is on or not
+    
+    --bird signals:
+    signal bird_y : integer := 300; --bird's vertical center on the screen
+    signal bird_vy : integer := 0; --bird's vertical velocity; helps to separate physics from drawing stats
+    
+    --pipe & gap signals:
+    signal pipe_x : integer := 760;
+    signal gap_y : integer := 220;
+    
+    --score signal:
+    signal score : std_logic_vector(15 downto 0) := (others => '0');
+    signal scored : std_logic := '0'; --prevents double scoring!!!!
 
-
-    signal bound_on : std_logic;
-    signal bird_on : std_logic;
-    signal building_on : std_logic;
-    signal background_on : std_logic;
-    signal game_on : std_logic := '0';
+    --made up signal so that the randomization works
+    signal lfsr : std_logic_vector(9 downto 0) := "1010010110"; --non zero seed for linear feedback shift register for pseudo random number;  ref: https://surf-vhdl.com/how-to-implement-an-lfsr-in-vhdl/
+    --signal stores current state of lsfr and shifts bits + combines specific bits to make pseudoramdom sequences
+begin
+    --link hits to the score
+    hits <= score;
     
-    --gap_pos = vertical center of gap - 10 bits
-    signal gap_pos : std_logic_vector(9 downto 0) :=  conv_std_logic_vector(640, 10);
+    --logic for making the bg white, pipe green. and the bird blue
+    --not sure why the bat_n_ball logic didnt work here so its been rewritten
+    --more complicated but it worked ...
+    process(bird_on, pipe_on)
+    begin
+        if pipe_on = '1' then
+            red <= '0'; green <= '1'; blue <= '0';
+        elsif bird_on = '1' then
+             red <= '0'; green <= '0'; blue <= '1';
+        else
+            red <= '1'; green <= '1'; blue <= '1';
+        end if;
+    end process;
     
-    --bound_y used as the pipe's x position
-    signal bound_y : std_logic_vector(9 downto 0) := conv_std_logic_vector(640, 10);
-    signal bound_y_motion : STD_LOGIC_VECTOR(9 DOWNTO 0) := gap_speed;
-
-    --signals for the bird, from lab 6 pong:
-    -- current ball position - intitialized to center of screen
-    SIGNAL bird_x : STD_LOGIC_VECTOR(10 DOWNTO 0) := CONV_STD_LOGIC_VECTOR(400, 11);
-    SIGNAL bird_y : STD_LOGIC_VECTOR(10 DOWNTO 0) := CONV_STD_LOGIC_VECTOR(300, 11);
-    SIGNAL bird_x_motion, bird_y_motion : STD_LOGIC_VECTOR(10 DOWNTO 0) := bird_speed;
-  
-    --integer helpers for bird physics and movement
-    signal bird_y_int : integer := 300;
-    signal bird_y_vel_int : integer := 0;
-    constant jump_strength : integer := -40; --upwards jump in pixels
-    constant gravity : integer := 4; --fall speed increment
-  
-BEGIN
-
-    --assign hits output to reflect the score
-    hits <= conv_std_logic_vector(score, 16);
-   -- color setup for blue bird and green pipes on a white background
-    red <= building_on or bound_on;
-    green <= building_on or bound_on;
-    blue <= bird_on;
+    --bird draw (circle), referencing ball_draw:
+    --in ball_draw, the ball is always on
+    --in bird_draw, the bird is on when game_on = 1 
+    bird_draw : process(bird_y, game_on, pixel_row, pixel_col)
+        variable vx, vy : integer; --temp variables to convert values so the equations work
+        variable r, c : integer; --variables to conv current pixel being drawn from std_logic_vector into INTEGERS to do math; c - x coord, r = y coord
+    begin
+        r := conv_integer(pixel_row);
+        c := conv_integer(pixel_col);
+        --the following if statements convert unsigned pixel coordibates into absolute distance
+        --so vx = hori distance from bird center
+        -- vy = vertical distance from bird center
+        --and avoids negative numbers
+        if c <= bird_x then vx := bird_x - c; 
+        else vx := c - bird_x; 
+        end if;
+        
+        if r <= bird_y then vy := bird_y - r; 
+        else vy := r - bird_y; 
+        end if;
+        
+        --from bat_n_ball! here is the CIRCLE EQUATION
+        if (game_on = '1') and ((vx*vx + vy*vy) < (bsize*bsize)) then
+            bird_on <= '1';
+        else
+            bird_on <= '0';
+        end if;
+    end process;
     
-    --drawing the BIRD, referencing balldraw from lab 6 pong
-    --because... our bird will be a ball... heheheh..... hehe.. he...
-    birddraw : process (bird_x, bird_y, pixel_row, pixel_col) is
-        variable vx, vy : std_logic_vector(10 downto 0);
-        begin
-            if pixel_col <= bird_x then
-                vx := bird_x - pixel_col;
+    --process to draw the pipes, two rectangles w a gap in btwn
+    pipe_draw: process(pipe_x, gap_y, game_on, pixel_row, pixel_col)
+        variable r, c : integer;
+    begin
+        r := conv_integer(pixel_row);
+        c := conv_integer(pixel_col);
+        
+        if (game_on = '1') and 
+        (c >= pipe_x) and (c < pipe_x + pipe_w) and --hori pipe bounds (pixel is within pipe width)
+        ((r < gap_y) or (r >= gap_y + gap_h)) then --vertical exclusion zone = GAP (draw pipe above or below gap)
+            pipe_on <= '1';
+        else
+            pipe_on <= '0';
+        end if;
+    end process;
+    
+    --process to be update once per frame
+    game_tick : process
+        variable new_gap : integer;
+        variable bird_left, bird_right : integer;
+        variable bird_top, bird_bot : integer;
+        variable pipe_left, pipe_right : integer;
+        variable gap_top, gap_bot : integer;
+    begin
+        wait until rising_edge(v_sync); --vsync happens once per frame (60hz) so we update game on the vertical sync to have consistent physics independent of clock speed
+        if (serve = '1') and (game_on = '0') then
+            game_on <= '1';
+            bird_y  <= 300;
+            bird_vy <= 0;
+            pipe_x  <= 760;
+            gap_y   <= 220;
+            score   <= (others => '0');
+            scored  <= '0';
+            lfsr    <= "1010010110";
+        elsif (game_on = '1') then
+            --determine if the bird goes up (flap) or down (gravity)
+            if flap = '1' then
+                bird_vy <= jump_vel; --bird JUMPS up
             else
-                vx := pixel_col - bird_x;
+                if bird_vy < max_fall_vel then --max_fall_vel limits the fall speed
+                    bird_vy <= bird_vy + gravity; --gravity accelerated downwards over time
+                end if;
             end if;
-            if pixel_row <= bird_y then
-                vy := bird_y - pixel_row;
-            else
-                vy := pixel_row - bird_y;
-            end if;
-            if ((vx * vx) + (vy * vy)) < (bsize * bsize) then
-                bird_on <= game_on;
-            else
-                bird_on <= '0';
-            end if;
-     end process;	
-     
-     --drawing the background now
-     --process code segment from flappy atilla's bird_n_buildings:
-     backgrounddraw: PROCESS (pixel_row, pixel_col) IS
-		VARIABLE vx, vy : STD_LOGIC_VECTOR (9 DOWNTO 0);
-	    BEGIN
-		IF (conv_integer(unsigned(pixel_row)) >= 0) AND conv_integer(unsigned(pixel_row))<= 800 AND conv_integer(unsigned(pixel_col)) >= 0 AND conv_integer(unsigned(pixel_col))<= 800 THEN
-			background_on <= '1';
-		ELSE
-			background_on <= '0';
-		END IF;
-	 END PROCESS;
-     
-     --drawing the gapset gap_on 
-     --process code segment from flappy atilla's bird_n_buildings:
-    gapdraw : PROCESS (bound_y, gap_pos, pixel_row, pixel_col) IS
-		--VARIABLE vx, vy : STD_LOGIC_VECTOR (9 DOWNTO 0);
-        BEGIN	
-            IF (pixel_row >= gap_pos - gapsize/2) AND  --check if inside vertical opening
-               (pixel_row <= gap_pos + gapsize/2) AND
-               (pixel_col >= bound_y - bound_h) AND
-               (pixel_col <= bound_y + bound_h) THEN
-                    bound_on <= '1';
-            ELSE
-                bound_on <= '0';
-		END IF;
-	END PROCESS;
-	
-	--drawing the pipes above and below the gap (top and bottom of screen)
-    --process code segment from flappy atilla's bird_n_buildings:
-    buildingdraw: PROCESS (bound_y, gap_pos, pixel_row, pixel_col) IS
-		--VARIABLE vx, vy : STD_LOGIC_VECTOR (9 DOWNTO 0);
-        BEGIN
-            IF (pixel_col >= bound_y - bound_h) AND --pipe hori range
-               (pixel_col <= bound_y + bound_h) THEN
-                IF (pixel_row < gap_pos-gapsize/2) then --pixel above gap?
-                    building_on <= '1';
-                
-                ELSIF (pixel_row > gap_pos + gapsize/2) then --pixel below gap?
-                    building_on <= '1';
-                ELSE
-                    building_on <= '0';    
-                END IF;
-            ELSE
-                building_on <= '0';
-            END IF;
-	END PROCESS;
-	
-	--bird physics.... yeah...
-	birdphysics : process
-	begin
-	   wait until rising_edge(v_sync);
-	   if game_on = '1' then
-	       if audio_peak = '1' then
-	           bird_y_vel_int <= jump_strength; --JUMP!!!
-	       else
-	           bird_y_vel_int <= bird_y_vel_int + gravity; --gravity accumulation
-	       end if;
-	       --bird_y_vel_int <= bird_y_vel_int + gravity;
-	       
-	       bird_y_int <= bird_y_int + bird_y_vel_int; --update position
-	       
-	       --clamp to screen bounds
-	       if bird_y_int < 10 THEN
-                bird_y_int <= 10;
-            elsif bird_y_int > 470 THEN
-                bird_y_int <= 470;
+            bird_y <= bird_y + bird_vy;
+            
+            --top or bottom losing logic
+            if (bird_y - bsize < 0) or (bird_y + bsize >= screen_h) then
+                game_on <= '0';
             end if;
             
-        else 
-        --when game not sunning, reset bird to starting position
-          bird_y_int <= 300;
-          bird_y_vel_int <= 0;
+            --moving the pipe
+            pipe_x <= pipe_x - pipe_speed;
+            
+            --respawn the pipe
+            if (pipe_x + pipe_w < 0) then --if pipe is fully offscreen, RESPAWN IT
+                pipe_x <= screen_w; --this math keeps the gap within the screen
+                lfsr <= lfsr(8 DOWNTO 0) & (lfsr(9) XOR lfsr(6));
+                new_gap := 40 + (CONV_INTEGER(lfsr) MOD (screen_h - gap_h - 80));
+                gap_y <= new_gap;
+                scored <= '0';
+            end if;
+            
+            --scoring logic
+            if (scored = '0') and (pipe_x + pipe_w < bird_x - bsize) then
+                score  <= score + 1;
+                scored <= '1';
+            end if;
+            
+            --collision logic, essentially making a bounding box
+            --rectangle math is simpler
+            --implemented using axis aligned bounding boxes
+            -- if bird overlaps pipe horizontally and is not within gap vertically, the game ends
+            --the bird is drawn as a circle, but we approx it within a box for collisions
+            bird_left := bird_x - bsize; --bird_x and bird_y are the center of the bird; bsize is the radius
+            bird_right := bird_x + bsize; --the bird occupies x from: (bird_x - bsize) to (bird_x + bsize) and y from: (bird_y - bsize) to (bird_y + bsize)
+            bird_top := bird_y - bsize;
+            bird_bot := bird_y + bsize;
+            pipe_left := pipe_x;   --defining the pipe rectangle;
+            pipe_right := pipe_x + pipe_w - 1; 
+            gap_top := gap_y; --defining the gap (safe vertical region)
+            gap_bot := gap_y + gap_h - 1;
+            --x axis horizontal overlap check)
+            if (bird_right >= pipe_left) and (bird_left <= pipe_right) then
+                if (bird_top < gap_top) or (bird_bot > gap_bot) then --then, a more specific y axis vertical collision check
+                    game_on <= '0';
+                end if;
+            end if;
         end if;
-        --reflect integer position to std_logic_vector
-        bird_y <= conv_std_logic_vector(bird_y_int, 11);
-     end process;
-	       
-	       
-	
-	--game logic!!!
-	
-	--process to move the gap once every frame
-	--process code segment from flappy atilla's bird_n_buildings:
-	--maybe? need to modify in order to incorporate that audio control.
-	--this section needs major repairs. 
-	mgap : PROCESS
-		--VARIABLE temp : STD_LOGIC_VECTOR (10 DOWNTO 0);
-		variable next_y : integer;
-		variable next_x : integer;
-		variable bird_r : integer := bsize;
-		variable bird_left, bird_right : integer;
-		variable gap_top, gap_bottom : integer;
-	BEGIN
-		WAIT UNTIL rising_edge(v_sync);
-		
-		--PART 1: game reset/serve function
-		--only used to start game
-		--press btn0 to serve
-		--and then use aidio to jump
-		IF (serve = '1') AND (game_on = '0') THEN -- test for new serve
-            game_on <= '1';
-		    score<=0;
-		    gapsize<=120;
-		    --pipes start on the right
-		    next_x := 640;
-		    bound_y <= conv_std_logic_vector(next_x, 10);
-		    --vertical gap reset
-            gap_pos <= conv_std_logic_vector(320, 10); --vertical gap center
-		    --reset pipe hori speed
-            gap_speed <= conv_std_logic_vector(5, 10);
-            bound_y_motion <= gap_speed;
-        END IF;
-        --PART 2: moving pipe across the screen (pipe moves left)
-            if game_on = '1' then
-                --compute next pipe x , moves left
-                next_x := conv_integer(unsigned(bound_y)) - conv_integer(unsigned(bound_y_motion));
-                --respawn the pipe at right edge once it moves offscreen
-                if next_x < 0 then
-                    score <= score + 1;	
-                    --randomized vertical gap formula from bird_and_buildings	   
-                    x <=((123*(score**2)) mod 560)+40;
-                    IF x < 40 THEN
-                        x <= 40;
-                    ELSIF x > 600 THEN
-                            x <= 600;
-                    END IF;
-                 gap_pos <= CONV_STD_LOGIC_VECTOR(x, 10);
-                 next_x := 640; --reset pipe position to right side of screen
-              end if;  
-        --updated pipe x position
-           bound_y <= CONV_STD_LOGIC_VECTOR(next_x, 10);
-        end if;
-
-		--PART 3: collision detection!!!!!	
-		-- This checks if you landed within the gap and allows you to add to the score until you win @ 15 points and the score resets
-		
-		bird_left := conv_integer(unsigned(bird_x)) - bird_r;
-		bird_right := conv_integer(unsigned(bird_x)) + bird_r;
-		
-		--calculating gap vertical region...
-		gap_top := conv_integer(unsigned(gap_pos)) - gapsize/2;
-		gap_bottom := conv_integer(unsigned(gap_pos)) + gapsize/2;
-		
-		--pipe horizontal region is a column
-		--pipe vertical region is entire screen save for btwn gap_top/bottom
-	     
-	      --does bird overlap pipe horizontally
-		  if bird_right >= (conv_integer(unsigned(bound_y)) - bound_h) and
-          bird_left <= (conv_integer(unsigned(bound_y)) + bound_h) then
-		     --is bird outside vertical gap
-		      if (conv_integer(unsigned(bird_y)) < gap_top) or 
-		          (conv_integer(unsigned(bird_y)) > gap_bottom) then
-		          --oooppppss u died!! bird collison = game ovrrr
-		          game_on <= '0';
-		          score <= 0;
-		          gapsize <= 120;
-		          bound_y_motion <= gap_speed;
-		     end if;
-		  end if;
-	--	 end if;
-	end process;
-
-end behavioral;
-
+    end process;
+end Behavioral;
+            
+            
+       
