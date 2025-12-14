@@ -1,5 +1,5 @@
-## taken fron pong.xdc
-## also referenced: https://github.com/karlsheng99/CPE487_DigitalSystemDesign/blob/master/project/AudioVisualEqualizer/AudioVisualEqualizer.srcs/constrs_1/new/audio_visual_equalizer.xdc
+#from: lab 6 pong
+##additional ports for the pdm mic are from: https://github.com/karlsheng99/CPE487_DigitalSystemDesign/blob/master/project/AudioVisualEqualizer/AudioVisualEqualizer.srcs/constrs_1/new/audio_visual_equalizer.xdc
 
 set_property -dict { PACKAGE_PIN E3 IOSTANDARD LVCMOS33 } [get_ports {clk_in}];
 create_clock -add -name sys_clk_pin -period 10.00 -waveform {0 5} [get_ports {clk_in}];
@@ -41,9 +41,7 @@ set_property -dict {PACKAGE_PIN T9 IOSTANDARD LVCMOS33} [get_ports {SEG7_anode[2
 set_property -dict {PACKAGE_PIN J18 IOSTANDARD LVCMOS33} [get_ports {SEG7_anode[1]}]
 set_property -dict {PACKAGE_PIN J17 IOSTANDARD LVCMOS33} [get_ports {SEG7_anode[0]}]
 
-## code from: audio_visual_equalizer.xdc
-##Omnidirectional Microphone
-
-set_property -dict { PACKAGE_PIN J5    IOSTANDARD LVCMOS33 } [get_ports { mic_clk }]; #IO_25_35 Sch=m_clk
-set_property -dict { PACKAGE_PIN H5    IOSTANDARD LVCMOS33 } [get_ports { mic_data }]; #IO_L24N_T3_35 Sch=m_data
-##set_property -dict { PACKAGE_PIN F5    IOSTANDARD LVCMOS33 } [get_ports { micLRSel }]; #IO_0_35 Sch=m_lrsel
+##MIC PORTS, ref from audio visual equalizer project (https://github.com/karlsheng99/CPE487_DigitalSystemDesign/blob/master/project/AudioVisualEqualizer/AudioVisualEqualizer.srcs/constrs_1/new/audio_visual_equalizer.xdc)
+set_property -dict { PACKAGE_PIN J5 IOSTANDARD LVCMOS33 } [get_ports { micClk }];   # Sch=m_clk
+set_property -dict { PACKAGE_PIN H5 IOSTANDARD LVCMOS33 } [get_ports { micData }];  # Sch=m_data
+set_property -dict { PACKAGE_PIN F5 IOSTANDARD LVCMOS33 } [get_ports { micLRSel }]; # Sch=m_lrsel
