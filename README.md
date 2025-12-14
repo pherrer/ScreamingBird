@@ -19,7 +19,7 @@ Don't crash the bird into a pipe, keep making noises so it stays up!!!! Check yo
 ## Hardware Requirements:
 - Nexys A7-100T FPGA Board
 - Audio Input (built into the Nexys Board already!)
-- Dsiplay VGA Monitor
+- External Monitor + VGA Connector
 
 ## Software:
 
