@@ -50,6 +50,12 @@ The main modifications and referencing from other labs are listed below:
 
 - #### <ins>flap_top.vhd:</ins> modified from lab 6's [pong.vhd](https://github.com/byett/dsd/blob/CPE487-Fall2025/Nexys-A7/Lab-6/pong.vhd) and flappy atilla's [flappy.vhd](https://github.com/BriannaPGarland/FlappyAttila/blob/main/ProjectFiles/flappy.vhd)
 
+The original pong.vhd was adapted to support the audio-control aspect of our Screaming Bird project rather than the button based controls from the Pong lab. Major changes to this top module include the integration of a PDM mic interface, VGA game rendering, and scoring display logic.
+
+A loudness detection algorithim was added to analyse the mic input by counting the no. of logic high bits ('1') in each PDM sample. When this cound exceeded a modifiable threshold, the system generates a "loud" signal, which is then converted to a single frame pulse synced up to the VGA vertical sync. This makes it so that each sound produces one bird "flap" (vertical movement of a fixed size). As a result of this, the bird is controlled by noise, and multiple jumps from sustained sounds are prevented. The audio input is aligned with the game's frame based physics.
+
+In addition to this, this top module has new subsystems & additions to subsystems in order to implement our audio processing and game logic. We port map the mic ports to the constraints file in order to link the audio processing and general game logic together. The architecture also includes new mic signals as well as flap pulse. We instantiated the microphone noise detector process as well as a noise-to-jump process into the architecture as well. The structure and formatting of Flappy Atila's flappy.vhd and Lab 6's pong.vhd were referenced as well to ensure the code worked as intentioned. 
+
 - #### <ins>bird_and_pipes.vhd:</ins> modified from lab 6's [bat_n_ball.vhd](https://github.com/byett/dsd/blob/CPE487-Fall2025/Nexys-A7/Lab-6/bat_n_ball.vhd) and flappy atilla's [bird_n_buildings.vhd](https://github.com/BriannaPGarland/FlappyAttila/blob/main/ProjectFiles/bird_n_buildings.vhd)
 
 - #### <ins>pdmdes.vhd:</ins> used karlsheng99's complete [pdmdes.vhd](https://github.com/karlsheng99/CPE487_DigitalSystemDesign/blob/master/project/AudioVisualEqualizer/AudioVisualEqualizer.srcs/sources_1/new/PdmDes.vhd)
