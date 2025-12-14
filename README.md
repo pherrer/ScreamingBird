@@ -24,17 +24,14 @@ Don't crash the bird into a pipe, keep making noises so it stays up!!!! Check yo
 ## Software:
 
 ### Files:
-#### from past labs:
+- flap_top.vhd: top module where components are called
+- bird_and_pipes.vhd : game logic and on-screen functionality
+- pdmdes.vhd: noise detection and thresholding using the board's onboard mic 
 - clk_wiz_0.vhd : display to VGA monitor
 - clk_wiz_0_clk_wiz.vhd : display to VGA monitor
 - leddec16.vhd : use the FPGA board to display a score counter
 - vga_sync.vhd : control the dimensions of the game on the display
-- dac_if : controls the audio input which is the control for the bird
-#### created for this project (modified and referenced from past projects):
-- bird_and_pipes.vhd : game logic and on-screen functionality
-- flap.vhd : where the components are 
-- risingedge.vhd : checks for the rising edge 
-- flap.xdc : constraint file that controls the board
+- flap_top.xhd: constraints file containing port mapping to the board and files
 
 ### Block Diagram:
 
@@ -43,6 +40,11 @@ Don't crash the bird into a pipe, keep making noises so it stays up!!!! Check yo
 ### Inputs/Outputs:
 
 ### Modifications:
+#### flap_top.vhd: modified from lab 6 [pong.vhd](https://github.com/byett/dsd/blob/CPE487-Fall2025/Nexys-A7/Lab-6/pong.vhd) and flappy atilla's [flappy.vhd]([url](https://github.com/BriannaPGarland/FlappyAttila/blob/main/ProjectFiles/flappy.vhd))
+
+#### bird_and_pipes.vhd: modified from lab 6 [bat_n_ball.vhd](https://github.com/byett/dsd/blob/CPE487-Fall2025/Nexys-A7/Lab-6/bat_n_ball.vhd) and flappy atilla's [bird_n_buildings.vhd]([url](https://github.com/BriannaPGarland/FlappyAttila/blob/main/ProjectFiles/bird_n_buildings.vhd))
+
+#### pdmdes.vhd: used karlsheng99's complete [pdmdes.vhd]([url](https://github.com/karlsheng99/CPE487_DigitalSystemDesign/blob/master/project/AudioVisualEqualizer/AudioVisualEqualizer.srcs/sources_1/new/PdmDes.vhd))
 
 
 ## Summary of Process:
