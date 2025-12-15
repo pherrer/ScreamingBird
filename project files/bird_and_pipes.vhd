@@ -1,12 +1,5 @@
-
---screaming_bird's bird_and_pipes.vhd file
-
---CREDITS AND REFRENCES:
---based on lab 6 (pong) bat_n_ball.vhd
---and flappy atilla project - https://github.com/BriannaPGarland/FlappyAttila/blob/main/ProjectFiles/bird_n_buildings.vhd
---and 2019 flappy bird project - https://sites.google.com/stevens.edu/cpe487website/project
-
 --create the bird, pipes, and game logic functionalities
+--referenced from flappy atilla and lab 6's bat_n_ball
 
 LIBRARY IEEE;
 USE IEEE.STD_LOGIC_1164.ALL;
@@ -40,7 +33,7 @@ architecture Behavioral of bird_and_pipes is
     --constants for the bird physics (only moves in y direction):
     constant gravity : integer := 1; --pull bird down when not jumping up
     constant jump_vel : integer := -10; --jump velocity
-    constant max_fall_vel : integer := -12;--the max velocity the bird can fall
+    constant max_fall_vel : integer := 12;--the max velocity the bird can fall
     
     --constants for the pipes (basic rectangles that move across the screen):
     constant pipe_w : integer := 60;
@@ -148,6 +141,7 @@ begin
             score   <= (others => '0');
             scored  <= '0';
             lfsr    <= "1010010110";
+            
         elsif (game_on = '1') then
             --determine if the bird goes up (flap) or down (gravity)
             if flap = '1' then
