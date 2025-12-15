@@ -16,6 +16,7 @@ entity flap_top is
         VGA_hsync : OUT STD_LOGIC;
         VGA_vsync : OUT STD_LOGIC;
         btn0 : IN STD_LOGIC; -- serve,start,reset button
+        btnl : IN STD_LOGIC;
       --match mic ports to xdc
         micClk   : OUT STD_LOGIC;
         micData  : IN  STD_LOGIC;
@@ -160,15 +161,16 @@ begin
     --we conv the pdm stream into binary loudness signal by counting no. of high bits in sample window
     --edge detecting the loudness signal w/ vga vertical sync prevents continuous jumping
     --this produces a single cycle flap pulse sync to the game frame rate
-    process(S_vsync)  --converts a loud sound to a SINGLE JUMP and limits jumping to once per video frame
+   --converts a loud sound to a SINGLE JUMP and limits jumping to once per video frame
+    process(S_vsync)
     begin
-        if rising_edge(S_vsync) then --vsync pulses once per screen refresh so abt 60hz
-            if (loud_clk = '1') and (loud_vs_prev = '0') then --rising edge detection from quiet to LOUD; continuous noise does not mean infinite jumps
+        if rising_edge(S_vsync) then
+            if (loud_clk = '1') AND (loud_vs_prev = '0') then
                 flap_req <= '1';
             else
                 flap_req <= '0';
             end if;
-            loud_vs_prev <= loud_clk; --store the previous state (edge detection)
+            loud_vs_prev <= loud_clk;
         end if;
     end process;
     
@@ -210,6 +212,17 @@ begin
       clk_in1 => clk_in,
       clk_out1 => pxl_clk
     );
+    
+     -- Counter for 7-seg mux
+    PROCESS(clk_in)
+    BEGIN
+        IF rising_edge(clk_in) THEN
+            count <= count + 1;
+        END IF;
+    END PROCESS;
+    
+    led_mpx <= count(19 DOWNTO 17);
+
     
     led1 : leddec16
     PORT MAP(
