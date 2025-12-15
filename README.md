@@ -78,6 +78,12 @@ We also modified pipe respawn and the pseudo-random gap generation. Flappy Atill
 
 - #### <ins>pdmdes.vhd:</ins> used karlsheng99's complete [pdmdes.vhd](https://github.com/karlsheng99/CPE487_DigitalSystemDesign/blob/master/project/AudioVisualEqualizer/AudioVisualEqualizer.srcs/sources_1/new/PdmDes.vhd)
 
+The pdmdes.vhd file was sourced from karlsheng99's Audio Visual Equalizer project and used w/o modification. Full credit is given to him for the original implementation. 
+
+This module handles the deserialization of the pdm microphone's high freq 1-bit data stream into stable 16 bit samples. PDM microphone interfacing requires precise clock generation and timing control, making it a significantly complex part of the project. Due to time constraints and several major bugs throughout other aspects of the project, a reliable and tested module was re-used and credited. This allowed us to focus on the higher level system design. In particular, we were able to focus and refine the conversion of this audio data and using the resulting signal to control gameplay behavior. 
+
+While the pdmdes.vhd file itself was resused, its output was processed by our logic to create a single frame jump signal, synced up to the vga frame rate.
+
 
 ## Summary of Process:
 
