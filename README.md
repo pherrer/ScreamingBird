@@ -87,6 +87,8 @@ While the pdmdes.vhd file itself was resused, its output was processed by our lo
 
 ## Summary of Process:
 
+Conclude with a summary of the process itself – who was responsible for what components (preferably also shown by each person contributing to the github repository!), the timeline of work completed, any difficulties encountered and how they were solved, etc. (10 points of the Submission category)
+
 ## Credits:
 ### past dsd projects:
 
