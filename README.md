@@ -27,7 +27,7 @@ NOTE: DO LAB INSTRUCTIONS !!!!!!!
 ## Software:
 - Vivado (using VHDL as the designated code for this project) 
 
-### Files:
+## Files:
 - flap_top.vhd: top module where components are called
 - bird_and_pipes.vhd : game logic and on-screen functionality
 - pdmdes.vhd: noise detection and thresholding using the board's onboard mic 
@@ -37,8 +37,16 @@ NOTE: DO LAB INSTRUCTIONS !!!!!!!
 - vga_sync.vhd : control the dimensions of the game on the display
 - flap_top.xhd: constraints file containing port mapping to the board and files
 
-### Block Diagram:
+## Expected Behavior
+The system displays the game interface on a VGA monitor at a resolution of 800*600 pixels. The bird character continuously moves in the vertical direction under the influence of gravity. When an audio peak is detected from the microphone input, the bird performs an upward jump, allowing the player to control its motion using sound.
+The PDM microphone input is processed in hardware and converted into a digital loudness value. When this loudness exceeds a predefined threshold, a jump event is triggered.
+Obstacle pipes scroll horizontally across the screen from right to left at a constant speed. The bird must navigate through the gaps between pipes. If the bird collides with a pipe or touches the top or bottom screen boundaries, the game immediately ends.
+Each time the bird successfully passes through a pipe without collision, the score increments by one. The current score is displayed in real time on a 7-segment display, providing external visual feedback independent of the VGA output.
+
+### Diagram and System
 [System function diagram](https://github.com/pherrer/ScreamingBird/blob/main/images/Flappy_bird_diagram.png)
+[Physical Hardware System](https://github.com/pherrer/ScreamingBird/blob/main/images/System.jpeg)
+[Physical Hardware System with Minitor](https://github.com/pherrer/ScreamingBird/blob/main/images/Hardware.jpeg)
 
 ### FSM:
 
