@@ -51,12 +51,19 @@ NOTE: DO LAB INSTRUCTIONS !!!!!!!
 6. The score increments by one each time the bird successfully passes a pipe pair without collision. The current score is output in real time on an external 7-segment display, which updates immediately upon each successful pass and operates independently of the VGA display.
 
 ### Diagram and System
-![System function diagram](Flappy_bird_diagram.png)
+[System function diagram](https://github.com/pherrer/ScreamingBird/blob/main/images/Flappy_bird_diagram.png)
 [Physical Hardware System](https://github.com/pherrer/ScreamingBird/blob/main/images/System.jpeg)
 [Physical Hardware System with Minitor](https://github.com/pherrer/ScreamingBird/blob/main/images/Hardware.jpeg)
 
 ### FSM:
-[
+At this finite state machine, we used 0 to represent successful data passing (not falling or not striking any objects), and 1 for error data (falling or hitting a pipe). 
+- State 1 represents system initiation: before system begins running and program in reset
+- State 2 represents system begins: system starts running and program is initiated
+- State 3 represents system ongoing: game is in progress
+- State 4 represents system failure: game is failed and final score is being printed on the monitor
+- 
+[Finite State Machine for Flappy Bird](https://github.com/pherrer/ScreamingBird/blob/main/images/Flappy%20Bird%20FSM.png)
+
 ### Inputs/Outputs:
 
 ### Modifications:
