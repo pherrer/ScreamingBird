@@ -25,6 +25,7 @@ NOTE: DO LAB INSTRUCTIONS !!!!!!!
 - External Monitor + VGA Connector
 
 ## Software:
+- Vivado (using VHDL as the designated code for this project) 
 
 ### Files:
 - flap_top.vhd: top module where components are called
@@ -37,6 +38,7 @@ NOTE: DO LAB INSTRUCTIONS !!!!!!!
 - flap_top.xhd: constraints file containing port mapping to the board and files
 
 ### Block Diagram:
+[System function diagram](https://github.com/pherrer/ScreamingBird/blob/main/images/Flappy_bird_diagram.png)
 
 ### FSM:
 
