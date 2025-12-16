@@ -38,25 +38,25 @@ NOTE: DO LAB INSTRUCTIONS !!!!!!!
 - flap_top.xhd: constraints file containing port mapping to the board and files
 
 ## Expected Behavior
-The system outputs the game display to a VGA monitor operating at a fixed resolution of 800×600 pixels. All game elements, including the bird, pipes, and background, are rendered within this display area.
+1. The system outputs the game display to a VGA monitor operating at a fixed resolution of 800×600 pixels. All game elements, including the bird, pipes, and background, are rendered within this display area.
 
-The bird’s vertical position is updated every clock cycle based on a gravity model that applies a constant downward acceleration. In the absence of user input, the bird continuously descends toward the bottom of the screen.
+2. The bird’s vertical position is updated every clock cycle based on a gravity model that applies a constant downward acceleration. In the absence of user input, the bird continuously descends toward the bottom of the screen.
 
-Audio input from the PDM microphone is processed entirely in hardware to generate a digital loudness value. This value is continuously compared against a predefined threshold. When the loudness exceeds the threshold, a jump signal is asserted, causing an immediate upward velocity to be applied to the bird, resulting in a vertical jump.
+3. Audio input from the PDM microphone is processed entirely in hardware to generate a digital loudness value. This value is continuously compared against a predefined threshold. When the loudness exceeds the threshold, a jump signal is asserted, causing an immediate upward velocity to be applied to the bird, resulting in a vertical jump.
 
-Pipes are generated at fixed horizontal intervals and scroll from right to left across the screen at a constant speed. Each pipe pair contains a vertical gap that the bird must pass through. The horizontal and vertical positions of the bird and pipes are continuously monitored for overlap.
+4. Pipes are generated at fixed horizontal intervals and scroll from right to left across the screen at a constant speed. Each pipe pair contains a vertical gap that the bird must pass through. The horizontal and vertical positions of the bird and pipes are continuously monitored for overlap.
 
-A collision event is detected if the bird intersects with any pipe or if its vertical position exceeds the upper or lower screen boundaries. Upon collision detection, the game enters a game-over state, halting bird motion and pipe scrolling.
+5. A collision event is detected if the bird intersects with any pipe or if its vertical position exceeds the upper or lower screen boundaries. Upon collision detection, the game enters a game-over state, halting bird motion and pipe scrolling.
 
-The score increments by one each time the bird successfully passes a pipe pair without collision. The current score is output in real time on an external 7-segment display, which updates immediately upon each successful pass and operates independently of the VGA display.
+6. The score increments by one each time the bird successfully passes a pipe pair without collision. The current score is output in real time on an external 7-segment display, which updates immediately upon each successful pass and operates independently of the VGA display.
 
 ### Diagram and System
-[System function diagram](https://github.com/pherrer/ScreamingBird/blob/main/images/Flappy_bird_diagram.png)
+![System function diagram](Flappy_bird_diagram.png)
 [Physical Hardware System](https://github.com/pherrer/ScreamingBird/blob/main/images/System.jpeg)
 [Physical Hardware System with Minitor](https://github.com/pherrer/ScreamingBird/blob/main/images/Hardware.jpeg)
 
 ### FSM:
-
+[
 ### Inputs/Outputs:
 
 ### Modifications:
