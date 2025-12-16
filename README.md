@@ -136,9 +136,9 @@ After successfully implement this codes, we were able to gain an output image on
 ## Summary of Process:
 Overall, this project involved taking existing VGA and audio reference designs and integrating them into a single, functional system on the Nexys board. The process required modifying VHDL modules to add new inputs and outputs, synchronizing multiple subsystems such as video, audio, and game logic, and correctly mapping all signals in the XDC constraints file. Through iterative testing in Vivado and validation on hardware, we were able to successfully connect the microphone, display the game on a monitor, and output the score on the seven-segment display, resulting in a complete and interactive noise-controlled Flappy Bird game.
 
-During this project, Paula was responsible for 
+During this project, Paula was responsible for researching past projects, compiling references and integrating them with original code, testing the game, and working on the poster's info bullets.
 
-Yuning's responsibility include completing all the diagrams according to the programs designed, modifying the codes 
+Yuning's responsibility include completing all the diagrams according to the programs designed, modifying the codes, assembling the hardware 
 Conclude with a summary of the process itself – who was responsible for what components (preferably also shown by each person contributing to the github repository!), the timeline of work completed, any difficulties encountered and how they were solved, etc. (10 points of the Submission category)
 
 ## Credits:
