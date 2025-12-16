@@ -1,7 +1,7 @@
 # ScreamingBird
 CPE 487 Final Project: Voice/Noise Controlled Flappy Bird
 
-![Poster Link](https://github.com/pherrer/ScreamingBird/blob/main/images/cpe%20487%20flappy%20bird%20poster.pdf)
+[Poster Link](https://github.com/pherrer/ScreamingBird/blob/main/images/cpe%20487%20flappy%20bird%20poster.pdf)
 
 
 ## Overview:
