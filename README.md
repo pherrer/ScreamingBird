@@ -37,7 +37,7 @@ NOTE: DO LAB INSTRUCTIONS !!!!!!!
 - vga_sync.vhd : control the dimensions of the game on the display
 - flap_top.xhd: constraints file containing port mapping to the board and files
 
-## Expected Behavior
+## Expected Behavior:
 1. The system outputs the game display to a VGA monitor operating at a fixed resolution of 800×600 pixels. All game elements, including the bird, pipes, and background, are rendered within this display area.
 
 2. The bird’s vertical position is updated every clock cycle based on a gravity model that applies a constant downward acceleration. In the absence of user input, the bird continuously descends toward the bottom of the screen.
@@ -50,10 +50,11 @@ NOTE: DO LAB INSTRUCTIONS !!!!!!!
 
 6. The score increments by one each time the bird successfully passes a pipe pair without collision. The current score is output in real time on an external 7-segment display, which updates immediately upon each successful pass and operates independently of the VGA display.
 
-### Diagram and System
+### Diagram and System:
 - [System function diagram](https://github.com/pherrer/ScreamingBird/blob/main/images/Flappy_bird_diagram.png)
 - [Physical Hardware System](https://github.com/pherrer/ScreamingBird/blob/main/images/System.jpeg)
 - [Physical Hardware System with Minitor](https://github.com/pherrer/ScreamingBird/blob/main/images/Hardware.jpeg)
+- [Screen output](https://github.com/pherrer/ScreamingBird/blob/main/images/Monitor.jpeg)
 
 ### FSM:
 At this finite state machine, we used 0 to represent successful data passing (not falling or not striking any objects), and 1 for error data (falling or hitting a pipe). 
@@ -65,6 +66,9 @@ At this finite state machine, we used 0 to represent successful data passing (no
 [Finite State Machine for Flappy Bird](https://github.com/pherrer/ScreamingBird/blob/main/images/Flappy%20Bird%20FSM.png)
 
 ### Inputs/Outputs:
+
+
+[Video Example](https://github.com/pherrer/ScreamingBird/blob/main/images/IMG_6073.MOV)
 
 ### Modifications:
 
