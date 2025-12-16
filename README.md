@@ -65,7 +65,7 @@ At this finite state machine, we used 0 to represent successful data passing (no
 
 [Finite State Machine for Flappy Bird](https://github.com/pherrer/ScreamingBird/blob/main/images/Flappy%20Bird%20FSM.png)
 
-## System Functioning Summary
+## System Functioning Summary 
 ### Vivado
 The project began in Vivado by gathering and reviewing code from two prior projects: a Flappy Bird–style VGA game and a noise-controlled audio project. These references provided a strong foundation for both the game logic and the concept of microphone-based input. From there, we focused on understanding how noise detection worked and adapting it for our design, which required writing and modifying the microphone (PDM) interface code ourselves. A significant portion of the development time was spent integrating this noise detection with the game physics, particularly implementing realistic bird behavior such as continuous falling under gravity when no input is present. Debugging these interactions ensured the bird responded correctly to noise while remaining synchronized with the VGA frame timing. This was the most time-consuming part of the Vivado work, but once resolved, the full design synthesized and functioned as intended.
 
@@ -78,12 +78,7 @@ After completing and verifying the design in Vivado, the project was deployed on
 
 The onboard microphone was driven by the `PdmDes` module, which generates the required PDM clock and reads in the serial mic data. Once connected through the top-level module, the mic continuously sampled sound and converted it into digital data. We then used simple threshold logic to detect loud sounds and turn them into a clean signal, allowing the bird to jump when noise was detected. For the monitor output, we relied on the VGA setup we were already familiar with. The clock wizard provided a stable pixel clock, and the VGA controller handled sync signals and pixel positioning. The game graphics were sent to the monitor through this pipeline, and the final score was displayed on the seven-segment display using digit multiplexing. After matching the constraints to the Nexys board pins, everything displayed correctly on the monitor and ran smoothly in hardware.
 
-## Inputs/Outputs
-
-
-[Video Example](https://github.com/pherrer/ScreamingBird/blob/main/images/IMG_6073.MOV)
-
-## Modifications
+### Modifications
 
 This project was mainly built by extending and integrating different aspects, structures, files, and other material from CPE 487 Labs as well as previous CPE 487 projects. The primary goal of this project was not to soley re-use these structures, but to expand upon them with new functionality. Using these references, we were able to re-design game logic into an independent and functioning audio-driven Flappy Bird game.
 
@@ -125,6 +120,20 @@ This module handles the deserialization of the pdm microphone's high freq 1-bit 
 
 While the pdmdes.vhd file itself was resused, its output was processed by our logic to create a single frame jump signal, synced up to the vga frame rate.
 
+## Inputs/Outputs
+### Inputs:
+- System Clock `clk_in`: This is the main clock input for the Nexys board. It's constrained in the xdc file to generate the pixel clock required for VGA timing and game logic.
+- Push Button `btn0`: This is an user's input on the Nexys board. It's used to start, reset, or restart the game. 
+- Microphone Data `micData`: This is the serial PDM data coming from the onboard microphone. This signal allows the users to input the sound into the game to control the bird.
+  
+### Outputs:
+- VGA Signals (`VGA_red` `VGA_green` `VGA_blue` `VGA_hsync` `VGA_vsync`): these are the outputs that drive the VGA signals to the Nexys board, displaying the game graghics. 
+- Microphone Signals (`micClk` `micLRSel`): this is the output that displays the bird's action on the screen.
+- Monitor Displaying Signals (`SEG7_anode` `SEG7_seg`): this signal displays the player's score on the Nexys monitor. 
+### Example:
+We added the microphone input (`micData`) as a new control input and the seven-segment display signals (`SEG7_anode` and `SEG7_seg`) as new visual outputs beyond the original VGA starter code. We then mapped them to Nexys board pins in the .xdc file. The microphone interface uses `J5` for the microphone clock `micClk`, `H5` for the microphone data input `micData`, and `F5` for the left/right select signal `micLRSel`. These pins allow the FPGA to properly drive and read from the onboard PDM microphone. For the seven-segment display, the segment lines `SEG7_seg[0]` through `SEG7_seg[6]` were assigned to pins `L18`, `T11`, `P15`, `K13`, `K16`, `R10`, and `T10`, while the anode control signals `SEG7_anode[0]` through `SEG7_anode[7]` were mapped to `J17`, `J18`, `T9`, `J14`, `P14`, `T14`, `K2`, and `U13`. 
+
+After successfully implement this codes, we were able to gain an output image on the screen that displays all the required information. The board completed all the functions and presented the parameters. Here's a [Video Example](https://github.com/pherrer/ScreamingBird/blob/main/images/IMG_6073.MOV) to demonstarte our understanding for hardware information integration. 
 
 ## Summary of Process:
 
