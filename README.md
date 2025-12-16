@@ -4,12 +4,12 @@ CPE 487 Final Project: Voice/Noise Controlled Flappy Bird
 [Poster Link](https://github.com/pherrer/ScreamingBird/blob/main/images/cpe%20487%20flappy%20bird%20poster.pdf)
 
 
-## Overview:
+## Overview
 Our project is a sound controlled version of Flappy Bird. It will be based on Labs 3 (Bouncing Ball) and 6 (Pong) for reference. The game will display a shape (representing the "bird") you have to guide through a series of obstacles by making a noise. If a loud enough noise is detected by the system, it will move the “bird” up a set distance. We do not plan on adding specific voice recognition or keywords to make the “bird” move up. Rather, the noise just theoretically needs to reach a certain decibel level to be registered by the system and trigger the upward movement.
 
 Please view the credits at the bottom!
 
-## How to use: 
+## How to use 
 _Controls:_
 Shout, clap, or make an otherwise loud-ish noise into the audio input! Each noise will move the bird up a fixed amount. Keep making noise to navigate the bird through the pipes! Each time you go through a pipe, you get a point. If the bird hits a pipe, you lose!
 
@@ -19,15 +19,15 @@ Don't crash the bird into a pipe, keep making noises so it stays up!!!! Check yo
 NOTE: DO LAB INSTRUCTIONS !!!!!!!
 
 
-## Hardware Requirements:
+## Hardware Requirements
 - Nexys A7-100T FPGA Board
 - Audio Input (built into the Nexys Board already!)
 - External Monitor + VGA Connector
 
-## Software:
+## Software
 - Vivado (using VHDL as the designated code for this project) 
 
-## Files:
+## Files
 - flap_top.vhd: top module where components are called
 - bird_and_pipes.vhd : game logic and on-screen functionality
 - pdmdes.vhd: noise detection and thresholding using the board's onboard mic 
@@ -37,7 +37,7 @@ NOTE: DO LAB INSTRUCTIONS !!!!!!!
 - vga_sync.vhd : control the dimensions of the game on the display
 - flap_top.xhd: constraints file containing port mapping to the board and files
 
-## Expected Behavior:
+## Expected Behavior
 1. The system outputs the game display to a VGA monitor operating at a fixed resolution of 800×600 pixels. All game elements, including the bird, pipes, and background, are rendered within this display area.
 
 2. The bird’s vertical position is updated every clock cycle based on a gravity model that applies a constant downward acceleration. In the absence of user input, the bird continuously descends toward the bottom of the screen.
@@ -65,12 +65,14 @@ At this finite state machine, we used 0 to represent successful data passing (no
 
 [Finite State Machine for Flappy Bird](https://github.com/pherrer/ScreamingBird/blob/main/images/Flappy%20Bird%20FSM.png)
 
-### Inputs/Outputs:
+## System Functioning Summary
+
+## Inputs/Outputs
 
 
 [Video Example](https://github.com/pherrer/ScreamingBird/blob/main/images/IMG_6073.MOV)
 
-### Modifications:
+## Modifications
 
 This project was mainly built by extending and integrating different aspects, structures, files, and other material from CPE 487 Labs as well as previous CPE 487 projects. The primary goal of this project was not to soley re-use these structures, but to expand upon them with new functionality. Using these references, we were able to re-design game logic into an independent and functioning audio-driven Flappy Bird game.
 
@@ -142,21 +144,3 @@ Conclude with a summary of the process itself – who was responsible for what c
 - https://github.com/byett/dsd/tree/CPE487-Fall2025/Nexys-A7/Lab-6
 
 ---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
-
-
-### What to Submit:
-Your final submission should be a github repository of very similar format to the labs themselves with an opening README document with the expected components as follows:
-
-* A description of the expected behavior of the project, attachments needed (speaker module, VGA connector, etc.), related images/diagrams, etc. (10 points of the Submission category)
-		* The more detailed the better – you all know how much I love a good finite state machine and Boolean logic, so those could be some good ideas if appropriate for your system. If not, some kind of high level block diagram showing how different parts of your program connect together and/or showing how what you have created might fit into a more complete system could be appropriate instead.
-	* A summary of the steps to get the project to work in Vivado and on the Nexys board (5 points of the Submission category)
- 	* Description of inputs from and outputs to the Nexys board from the Vivado project (10 points of the Submission category)
-  		* As part of this category, if using starter code of some kind (discussed below), you should add at least one input and at least one output appropriate to your project to demonstrate your understanding of modifying the ports of your various architectures and components in VHDL as well as the separate .xdc constraints file.
-	* Images and/or videos of the project in action interspersed throughout to provide context (10 points of the Submission category)
-	* “Modifications” (15 points of the Submission category)
-		* If building on an existing lab or expansive starter code of some kind, describe your “modifications” – the changes made to that starter code to improve the code, create entirely new functionalities, etc. Unless you were starting from one of the labs, please share any starter code used as well, including crediting the creator(s) of any code used. It is perfectly ok to start with a lab or other code you find as a baseline, but you will be judged on your contributions on top of that pre-existing code!
-		* If you truly created your code/project from scratch, summarize that process here in place of the above.
-	* Conclude with a summary of the process itself – who was responsible for what components (preferably also shown by each person contributing to the github repository!), the timeline of work completed, any difficulties encountered and how they were solved, etc. (10 points of the Submission category)
-* And of course, the code itself separated into appropriate .vhd and .xdc files. (50 points of the Submission category; based on the code working, code complexity, quantity/quality of modifications, etc.)
-* You are not really expected to be github experts – as long as one of you can confidently create the repository and help others add to it, that should be sufficient. If no group members fall under this criteria, discuss with me as soon as possible.
-	* This is a group assignment, and for the most part you are graded as a group. I reserve the right to modify single student grades for extenuating circumstances, such as a clear lack of participation from a group member. You are allowed to rely on the expertise of your group members in certain aspects of the project, but you should all have at least a cursory understanding of all aspects of your project.
