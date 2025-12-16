@@ -138,7 +138,7 @@ begin
     process(clk_in)
         variable ones : integer;
         variable i : integer;
-        constant thresh : integer := 12; --could be changed a lil...
+        constant thresh : integer := 1; --could be changed a lil... CHANGED FROM 12 => 1 
     begin
         if rising_edge(clk_in) then
             if pdm_done = '1' then --the pdmdes sample is valid
@@ -237,3 +237,4 @@ END Behavioral;
     
     
     
+
