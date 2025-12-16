@@ -38,10 +38,17 @@ NOTE: DO LAB INSTRUCTIONS !!!!!!!
 - flap_top.xhd: constraints file containing port mapping to the board and files
 
 ## Expected Behavior
-The system displays the game interface on a VGA monitor at a resolution of 800*600 pixels. The bird character continuously moves in the vertical direction under the influence of gravity. When an audio peak is detected from the microphone input, the bird performs an upward jump, allowing the player to control its motion using sound.
-The PDM microphone input is processed in hardware and converted into a digital loudness value. When this loudness exceeds a predefined threshold, a jump event is triggered.
-Obstacle pipes scroll horizontally across the screen from right to left at a constant speed. The bird must navigate through the gaps between pipes. If the bird collides with a pipe or touches the top or bottom screen boundaries, the game immediately ends.
-Each time the bird successfully passes through a pipe without collision, the score increments by one. The current score is displayed in real time on a 7-segment display, providing external visual feedback independent of the VGA output.
+The system outputs the game display to a VGA monitor operating at a fixed resolution of 800×600 pixels. All game elements, including the bird, pipes, and background, are rendered within this display area.
+
+The bird’s vertical position is updated every clock cycle based on a gravity model that applies a constant downward acceleration. In the absence of user input, the bird continuously descends toward the bottom of the screen.
+
+Audio input from the PDM microphone is processed entirely in hardware to generate a digital loudness value. This value is continuously compared against a predefined threshold. When the loudness exceeds the threshold, a jump signal is asserted, causing an immediate upward velocity to be applied to the bird, resulting in a vertical jump.
+
+Pipes are generated at fixed horizontal intervals and scroll from right to left across the screen at a constant speed. Each pipe pair contains a vertical gap that the bird must pass through. The horizontal and vertical positions of the bird and pipes are continuously monitored for overlap.
+
+A collision event is detected if the bird intersects with any pipe or if its vertical position exceeds the upper or lower screen boundaries. Upon collision detection, the game enters a game-over state, halting bird motion and pipe scrolling.
+
+The score increments by one each time the bird successfully passes a pipe pair without collision. The current score is output in real time on an external 7-segment display, which updates immediately upon each successful pass and operates independently of the VGA display.
 
 ### Diagram and System
 [System function diagram](https://github.com/pherrer/ScreamingBird/blob/main/images/Flappy_bird_diagram.png)
